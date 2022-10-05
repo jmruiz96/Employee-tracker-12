@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/jmruiz96/Employee-tracker-12#readme",
   "dependencies": {
-    "inquirer": "^9.1.2",
+    "inquirer": "^8.2.4",
     "mysql2": "^2.3.3"
   }
 }
