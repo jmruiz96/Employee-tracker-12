@@ -38,7 +38,7 @@ function startMenu() {
         break;
         case 'Add an employee': addEmp();
         break;
-        case "Update an employee's role": updateEmp();
+        case 'Update an employee role': updateEmp();
         break;
         case 'Exit': process.exit();
         break;
@@ -152,7 +152,7 @@ function addEmp() {
 
 function updateEmp() {
   inquirer
-  .prompt([
+  .prompt ([
     {
     type: 'input',
     message: 'Choose an employee to update role(id)',
@@ -167,7 +167,7 @@ function updateEmp() {
 .then(function (res) {
   const empU = res.updEmp;
   const roleU = res.updRole; 
-  const query = `UPDATE employee SET role_id = "${empU}" WHERE id = "${roleU}"`;
+  const query = `UPDATE employee SET role_id = "${roleU}" WHERE id = "${empU}"`;
   db.query(query, function (err, res){
     console.table(res);
     startMenu();
