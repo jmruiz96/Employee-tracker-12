@@ -45,12 +45,12 @@ VALUES
 INSERT INTO employee
     (first_name, last_name, role_id, manager_id)
 VALUES
-    ('Jim', 'Halpert', 1, NULL),
-    ('Pam', 'Beasley', 4, NULL),
-    ('Stanley', 'Hudson', 1, NULL),
-    ('Oscar', 'Martinez', 2, NULL),
-    ('Toby', 'Flenderson', 3, NULL),
-    ('Andy', 'Bernard', 1, NULL),
-    ('Angela', 'Martin', 2, NULL),
-    ('Kevin', 'Malone', 2, NULL),
-    ('Michael', 'Scott', 1, 1);
+    ('Jim', 'Halpert', 1, 1),
+    ('Pam', 'Beasley', 4, 1),
+    ('Stanley', 'Hudson', 1, 1),
+    ('Oscar', 'Martinez', 2, 1),
+    ('Toby', 'Flenderson', 3, 1),
+    ('Andy', 'Bernard', 1, 1),
+    ('Angela', 'Martin', 2, 1),
+    ('Kevin', 'Malone', 2, 1),
+    ('Michael', 'Scott', 1, NULL);

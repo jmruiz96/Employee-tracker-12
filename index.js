@@ -38,7 +38,7 @@ function startMenu() {
         break;
         case 'Add an employee': addEmp();
         break;
-        case 'Update an employee': updateEmp();
+        case "Update an employee's role": updateEmp();
         break;
         case 'Exit': process.exit();
         break;
@@ -142,7 +142,7 @@ function addEmp() {
     const lName = res.newEmpLN;
     const roleID = res.newEmpR;
     const manID = res.newEmpM;
-    const query = `INSERT INTO departments (first_name, last_name, role_id, manager_id) VALUES ('${fName}'), '${lName}'), '${roleID}'), '${manID}')`;
+    const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${fName}', '${lName}', '${roleID}', '${manID}')`;
     db.query(query, function (err, res){
       console.table(res)
       startMenu()
@@ -150,5 +150,29 @@ function addEmp() {
 })
 };
 
+function updateEmp() {
+  inquirer
+  .prompt([
+    {
+    type: 'input',
+    message: 'Choose an employee to update role(id)',
+    name: 'updEmp'
+  },
+  {
+    type: 'input',
+    message: 'Choose an role(id) for that employee',
+    name: 'updRole'
+  }
+])
+.then(function (res) {
+  const empU = res.updEmp;
+  const roleU = res.updRole; 
+  const query = `UPDATE employee SET role_id = "${empU}" WHERE id = "${roleU}"`;
+  db.query(query, function (err, res){
+    console.table(res);
+    startMenu();
+  })
+})
+};
 
 startMenu();
