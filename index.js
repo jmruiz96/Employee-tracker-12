@@ -1,7 +1,6 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
-const PORT = process.env.PORT || 3001;
-
+const conTable = require('console.table')
 
 const db = mysql.createConnection(
   {
@@ -26,7 +25,7 @@ function startMenu() {
       }
     ])
     .then((res) => {
-      switch (res.startMenu){
+      switch (res.start){
         case 'View all departments': viewAllDepts();
         break;
         case 'View all roles': viewAllRoles();
@@ -41,7 +40,7 @@ function startMenu() {
         break;
         case 'Update an employee': updateEmp();
         break;
-        case 'Exit': connection.end;
+        case 'Exit': process.exit();
         break;
       }
     })
@@ -49,24 +48,107 @@ function startMenu() {
 
 function viewAllDepts() {
   const query = "SELECT*FROM departments"
-  connection.query(query, function (err, res){
+  db.query(query, function (err, res){
+    //console.log(res)
     console.table(res)
     startMenu()
   })
 };
-function viewAllDepts() {
+function viewAllRoles() {
   const query = "SELECT*FROM roles"
-  connection.query(query, function (err, res){
+  db.query(query, function (err, res){
     console.table(res)
     startMenu()
   })
 };
-function viewAllDepts() {
-  const query = "SELECT*FROM employees"
-  connection.query(query, function (err, res){
+function viewAllEmp() {
+  const query = "SELECT*FROM employee"
+  db.query(query, function (err, res){
     console.table(res)
     startMenu()
   })
-}
+};
+
+function addDept() {
+  inquirer
+  .prompt ({
+    type: 'input',
+    message: 'Add department name',
+    name: 'newDept'
+  })
+  .then(function (res){
+    const newDept = res.newDept;
+    const query = `INSERT INTO departments (dept_name) VALUES ('${newDept}'\)`;
+    db.query(query, function (err, res){
+      console.table(res)
+      startMenu()
+  })
+})
+};
+function addRole() {
+  inquirer
+  .prompt ([{
+    type: 'input',
+    message: 'Add the new role',
+    name: 'newRole'
+  },
+  {
+    type: 'input',
+    message: "Add this role's salary",
+    name:'newSal'
+  },
+  {
+    type: 'input',
+    message: "Add this role to a department",
+    name: 'newRDept'
+  }])
+  .then(function (res){
+    const role = res.newRole;
+    const roleSal = res.newSal;
+    const roleDept = res.newRDept;
+    const query = `INSERT INTO roles (title, salary, dept_id) VALUES ('${role}', '${roleSal}', '${roleDept}')`;
+    //jquery must be seperate cannot do all inone
+    db.query(query, function (err, res){
+      console.table(res)
+      startMenu()
+  })
+})
+};
+function addEmp() {
+  inquirer
+  .prompt ([{
+    type: 'input',
+    message: "Add employee's first name",
+    name: 'newEmpFN'
+  },
+  {
+    type: 'input',
+    message: "Add employee's last name",
+    name: 'newEmpLN'
+  },
+  {
+    type: 'input',
+    message: "Add employee's role id",
+    name: 'newEmpR'
+  },
+  {
+    type: 'input',
+    message: "Add the magager's id who the new employee will report to",
+    name: 'newEmpM'
+  }
+])
+  .then(function (res){
+    const fName = res.newEmpFN;
+    const lName = res.newEmpLN;
+    const roleID = res.newEmpR;
+    const manID = res.newEmpM;
+    const query = `INSERT INTO departments (first_name, last_name, role_id, manager_id) VALUES ('${fName}'), '${lName}'), '${roleID}'), '${manID}')`;
+    db.query(query, function (err, res){
+      console.table(res)
+      startMenu()
+  })
+})
+};
+
 
 startMenu();
